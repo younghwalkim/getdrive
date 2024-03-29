@@ -55,9 +55,25 @@
 
 </style>
 
+<style type="text/css">
+footer {
+	height:100px;
+	text-align : center ;
+	background-color : #6BB9ED ;
+	color : white ;
+	display: flex;
+	justify-content: center;
+	align-items: center;	
+}
+</style>
+
 </head>
 <body>
 
+<footer>
+	copyright@getDrive.com &nbsp; 클라우드 AI 도우미 서비스 개발자 과정 - getDrive<br>
+	서울시 서초구 신논현동  ICT기술협회 강남지원, TEL : 02-1234-5678, Fax : 02-1234-5678
+</footer>
 
 <!-- 클릭할 버튼 -->
 <button id="myChatBtn">챗봇열기</button>

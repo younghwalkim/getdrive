@@ -1,15 +1,13 @@
 package com.project.getdrive;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.support.SessionStatus;
 
 /**
  * Handles requests for the application home page.
@@ -19,30 +17,35 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
-		return "home";
-	}
-	
+	// index.jsp 에서 main.do 호출
 	@RequestMapping("main.do")
 	public String forwardMainView() {
 		return "common/main";
 	}
 	
 	@RequestMapping("template.do")
-	public String templateView() {
+	public String templateView(
+		@RequestParam(name = "uno", required = false ) String usernum,
+		@RequestParam(name = "e_mail", required = false) String e_mail,
+		@RequestParam(name = "tno", required = false) int teamcode,			
+		HttpSession session,		
+		SessionStatus status) {
+		
+		logger.info("#### template.do ");
+		
+		if (usernum != null ) {
+			// 세션에 담음
+			session.setAttribute("loginMember", usernum);
+			session.setAttribute("emailMember", e_mail );
+			session.setAttribute("teamCode", teamcode );				
+		}
+	
+
+		
+		// 로그인 성공 요청 결과로 HttpStatus code 200 보냄
+		status.setComplete(); 
+		
+		
 		return "common/template";
 	}	
 

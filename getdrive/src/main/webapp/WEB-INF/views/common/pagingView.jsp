@@ -21,13 +21,13 @@
 </head>
 <body>
 <%-- 목록 페이징 처리 --%>
-<c:if test="${empty action}">
+<c:if test="${empty action && keyword == null}">
     <div style="text-align:center;">
 	
 	    <%-- 맨 처음 페이지로 이동 --%>
 	    <c:choose>
 	        <c:when test="${currentPage > 1}">
-	            <a href="/first/${urlMapping}?page=1&limit=${limit}">[맨처음]</a> &nbsp;
+	            <a href="${urlMapping}?page=1&limit=${limit}">[맨처음]</a> &nbsp;
 	        </c:when>
 	        <c:otherwise>
 	            [맨처음] &nbsp;
@@ -37,7 +37,7 @@
 	    <%-- 이전 그룹으로 이동 --%>
 	    <c:choose>
 	        <c:when test="${(currentPage - 10) >= 1}">
-	            <a href="/first/${urlMapping}?page=${currentPage - 10}&limit=${limit}">[이전그룹]</a> &nbsp;
+	            <a href="${urlMapping}?page=${currentPage - 10}&limit=${limit}">[이전그룹]</a> &nbsp;
 	        </c:when>
 	        <c:otherwise>
 	            [이전그룹] &nbsp;
@@ -51,7 +51,7 @@
 	                <font color="blue" size="4"><b>${p}</b></font>
 	            </c:when>
 	            <c:otherwise>
-	                <a href="/first/${urlMapping}?page=${p}&limit=${limit}">${p}</a>
+	                <a href="${urlMapping}?page=${p}&limit=${limit}">${p}</a>
 	            </c:otherwise>
 	        </c:choose>
 	    </c:forEach>
@@ -59,7 +59,7 @@
 	    <%-- 다음 그룹으로 이동 --%>
 	    <c:choose>
 		    <c:when test="${endPage < maxPage}">
-		        <a href="/first/${urlMapping}?page=${endPage + 1}&limit=${limit}">[다음그룹]</a> &nbsp;
+		        <a href="${urlMapping}?page=${endPage + 1}&limit=${limit}">[다음그룹]</a> &nbsp;
 		    </c:when>
 		    <c:otherwise>
 		        [다음그룹] &nbsp;
@@ -69,7 +69,66 @@
 	    <%-- 맨 끝 페이지로 이동 --%>
 	    <c:choose>
 	        <c:when test="${currentPage < maxPage}">
-	            <a href="/first/${urlMapping}?page=${maxPage}&limit=${limit}">[맨끝]</a> &nbsp;
+	            <a href="${urlMapping}?page=${maxPage}&limit=${limit}">[맨끝]</a> &nbsp;
+	        </c:when>
+	        <c:otherwise>
+	            [맨끝] &nbsp;
+	        </c:otherwise>
+	    </c:choose>
+     
+	</div>
+</c:if>
+
+<%-- 검색 목록 페이징 처리 --%>
+<c:if test="${empty action && keyword != null }">
+    <div style="text-align:center;">
+	
+	    <%-- 맨 처음 페이지로 이동 --%>
+	    <c:choose>
+	        <c:when test="${currentPage > 1}">
+	            <a href="${urlMapping}?page=1&limit=${limit}&keyword=${keyword}">[맨처음]</a> &nbsp;
+	        </c:when>
+	        <c:otherwise>
+	            [맨처음] &nbsp;
+	        </c:otherwise>
+	    </c:choose>		
+	
+	    <%-- 이전 그룹으로 이동 --%>
+	    <c:choose>
+	        <c:when test="${(currentPage - 10) >= 1}">
+	            <a href="${urlMapping}?page=${currentPage - 10}&limit=${limit}&keyword=${keyword}">[이전그룹]</a> &nbsp;
+	        </c:when>
+	        <c:otherwise>
+	            [이전그룹] &nbsp;
+	        </c:otherwise>
+	    </c:choose>
+	
+	    <%-- 페이지 번호 --%>
+	    <c:forEach begin="${startPage}" end="${endPage}" var="p"> 
+	        <c:choose>
+	            <c:when test="${p == currentPage}">
+	                <font color="blue" size="4"><b>${p}</b></font>
+	            </c:when>
+	            <c:otherwise>
+	                <a href="${urlMapping}?page=${p}&limit=${limit}&keyword=${keyword}">${p}</a>
+	            </c:otherwise>
+	        </c:choose>
+	    </c:forEach>
+	    
+	    <%-- 다음 그룹으로 이동 --%>
+	    <c:choose>
+		    <c:when test="${endPage < maxPage}">
+		        <a href="${urlMapping}?page=${endPage + 1}&limit=${limit}&keyword=${keyword}">[다음그룹]</a> &nbsp;
+		    </c:when>
+		    <c:otherwise>
+		        [다음그룹] &nbsp;
+		    </c:otherwise>
+	    </c:choose>
+	    
+	    <%-- 맨 끝 페이지로 이동 --%>
+	    <c:choose>
+	        <c:when test="${currentPage < maxPage}">
+	            <a href="${urlMapping}?page=${maxPage}&limit=${limit}&keyword=${keyword}">[맨끝]</a> &nbsp;
 	        </c:when>
 	        <c:otherwise>
 	            [맨끝] &nbsp;
@@ -88,12 +147,12 @@
             [맨처음] &nbsp;
         </c:when>
         <c:otherwise>
-            <a href="/first/${urlMapping}?page=1&action=${action}&keyword=${keyword}">[맨처음]</a> &nbsp;
+            <a href="${urlMapping}?page=1&action=${action}&keyword=${keyword}">[맨처음]</a> &nbsp;
         </c:otherwise>
     </c:choose>
 
     <c:if test="${(currentPage - 10) < startPage && (currentPage - 10) > 1}">
-        <a href="/first/${urlMapping}?page=${startPage - 10}&action=${action}&keyword=${keyword}">[이전그룹]</a> &nbsp;
+        <a href="${urlMapping}?page=${startPage - 10}&action=${action}&keyword=${keyword}">[이전그룹]</a> &nbsp;
     </c:if>
     <c:if test="${(currentPage - 10) >= startPage || (currentPage - 10) <= 1}">
         [이전그룹] &nbsp;
